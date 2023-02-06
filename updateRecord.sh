@@ -18,14 +18,23 @@ then
 				if [[ -f Databases/$1/.metaDataOf$2 ]]
 				then
 
-
                     echo "Enter Condition Update [ Column Name ] And [ Column Value ] "
                     read conditionColumnName conditionColumnValue
                     if [[ `grep -n $conditionColumnName Databases/$1/.metaDataOf$2 | wc -l` = 1 ]]
                     then
-                        conditionColumnNumber=$(awk -F: '{print NR}' Databases/$1/.metaDataOf$2 | grep "$conditionColumnName" | cut -d " " -f1)
+                        # conditionColumnNumber=$(awk -F: '{print NR}' Databases/$1/.metaDataOf$2 | grep "$conditionColumnName" | cut -d " " -f1)
+                        # conditionValueFieldNumber=$(awk -F" "  -v columnValue=$conditionColumnValue '{ for(i = 1 ; i <= NF ; i++){ if( $i == columnValue) print i} }' ./Databases/$1/$2)
+                        # echo $conditionColumnNumber + "fdg"
+                        # echo $conditionValueFieldNumber 
+                        
+
+                        conditionColumnNumber=$(awk -F: '{print NR,$0}' ./Databases/$1/.metaDataOf$2 | grep "$conditionColumnName" | cut -d " " -f1)
                         conditionValueFieldNumber=$(awk -F" "  -v columnValue=$conditionColumnValue '{ for(i = 1 ; i <= NF ; i++){ if( $i == columnValue) print i} }' ./Databases/$1/$2)
-                        if [[ $conditionColumnNumber = $conditionValueFieldNumber ]]
+                        # echo $conditionColumnNumber
+                        # echo $conditionValueFieldNumber 
+
+
+                        if [[ $conditionValueFieldNumber = $conditionColumnNumber ]]
                         then
                             recordNumber=$(awk '{print NR,$0}' Databases/$1/$2 | grep "$conditionColumnValue" | cut -d " " -f1)
                             echo "ENTER THE NEW VALUES FOR THE RECORD [with the same number of fields]"
@@ -35,13 +44,16 @@ then
                             do
                                 arrayLength=$(( arrayLength + 1 ));
                             done
+
+                            # echo $arrayLength
                             numberOfColumn=$(wc -l Databases/$1/.metaDataOf$2 | awk '{print $1}')
-                            numberOfColumn=$(( numberOfColumn + 1 ))
+                            # numberOfColumn=$(( numberOfColumn + 1 ))
+                            # echo $numberOfColumn
                             if [[ $numberOfColumn = $arrayLength ]]
                             then
-                                echo $recordNumber
+                                # echo $recordNumber
                                 lineToUpdate=$(cat Databases/$1/$2 |head "-$recordNumber" | tail -1);
-                                echo $lineToUpdate
+                                # echo $lineToUpdate
 
 
                                 sed -i "s/$lineToUpdate/${inputArray[@]}/g" ./Databases/$1/$2;

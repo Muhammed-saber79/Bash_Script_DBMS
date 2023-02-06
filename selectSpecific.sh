@@ -28,11 +28,12 @@ then
                     if [[ `grep -n $columnName Databases/$1/.metaDataOf$2 | wc -l` = 1 ]]
                     then
                         columnNumber=$(awk -F: '{print NR,$0}' Databases/$1/.metaDataOf$2 | grep "$columnName" | cut -d " " -f1)
-                        fieldNumber=$(awk -F":"  -v columnValue=$columnValue '{ for(i = 1 ; i <= NF ; i++){ if( $i == columnValue) print i} }' Databases/$1/$2)
+                        fieldNumber=$(awk -F" "  -v columnValue=$columnValue '{ for(i = 1 ; i <= NF ; i++){ if( $i == columnValue) print i} }' Databases/$1/$2)
                         if [[ $fieldNumber = $columnNumber ]]
                         then
-                            recordNumber=$(awk '{print NR}' Databases/$1/$2 | grep "$columnValue" | cut -d" " -f1)
-                            
+                            # recordNumber=$(awk '{print NR}' Databases/$1/$2 | grep "$columnValue" | cut -d" " -f1)
+                            recordNumber=$(awk '{print NR,$0}' Databases/$1/$2 | grep "$columnValue" | cut -d " " -f1)
+							echo $recordNumber
                             echo "========================================"
 							echo `awk -v num=$recordNumber '{if (NR==num) print $0}' Databases/$1/$2`
                             echo "========================================"

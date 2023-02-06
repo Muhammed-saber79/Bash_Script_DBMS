@@ -41,13 +41,13 @@ then
 									temp+="${recordValues[i]}"
 									if (( i != inputLength-1 ))
 									then
-										temp+=":"
+										temp+=" "
 									fi
 								done
 
 								if [[ `awk -F: 'NR==1{print $3}' Databases/$1/.metaDataOf$2` = "Primary" ]]
 								then
-									if [[ `awk -F: -v temp=${recordValues[0]} '{if($1 == temp){print $0}}' Databases/$1/$2 | wc -l` -ge 1 ]]
+									if [[ `awk -F" " -v temp=${recordValues[0]} '{if($1 == temp){print $0}}' Databases/$1/$2 | wc -l` -ge 1 ]]
 									then
 										echo "========================================"
 										echo "First Value Must be Unique...!"
