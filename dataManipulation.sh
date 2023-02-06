@@ -24,7 +24,7 @@ then
 					2) ./insert.sh $1 $tableName;;
 					3) ./selectData.sh $1 $tableName;;
 					4) ./update.sh $1 $tableName;;
-					5) ./delete.sh $1 $tableName;;
+					5) ./deleteRecord.sh $1 $tableName;;
 					6) ./connectDatabase.sh $1;;
 					*) echo "Please Enter Valid Option...!";;
 					esac
@@ -66,8 +66,8 @@ then
 					1) ./addingColumn.sh $1 $2;;
 					2) ./insert.sh $1 $2;;
 					3) ./selectData.sh $1 $2;;
-					4) ./update.sh $1 $2;;
-					5) ./delete.sh $1 $2;;
+					4) ./updateRecord.sh $1 $2;;
+					5) ./deleteRecord.sh $1 $2;;
 					6) ./connectDatabase.sh $1;;
 					*) echo "Please Enter Valid Option...!";;
 					esac

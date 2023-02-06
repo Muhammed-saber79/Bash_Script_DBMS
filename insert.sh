@@ -23,38 +23,103 @@ then
 						then
 							echo "integer value...!"
 							echo "Enter Table Data: [col1 col2 col3 ... etc]"
-							read recordValues	
-							echo [[ $recordValues[0] ]]
+							read -a recordValues	
 
+							if [[ "${recordValues[0]}" =~ ^[0-9]+$ ]]
+							then 
+								let inputLength
+								for val in ${recordValues[@]}
+								do
+									inputLength=$((inputLength+1))
+								done
+								
+								temp=""
+								if [[ $inputLength = `wc -l ./Databases/$1/.metaDataOf$2 | cut -f 1 -d" "` ]]
+								then
+								for (( i=0 ; i<inputLength ; i++ ))
+								do
+									temp+="${recordValues[i]}"
+									if (( i != inputLength-1 ))
+									then
+										temp+=":"
+									fi
+								done
 
-							# if [[ "$recordValues[0]" =~ ^[0-9]+$ ]]
-							# then 
-							# 	let inputLength
-							# 	for val in ${recordValues[@]}
-							# 	do
-							# 		inputLength=$((inputLength+1))
-							# 	done
-							# 	echo "***********************"
-							# 	if [[ $inputLength = `wc -l ./Databases/$1/.metaDataOf$2 | cut -f 1 -d" "` ]]
-							# 	then
-							# 		echo "$recordValues" >> ./Databases/$1/$2
-							# 	else
-							# 		echo "Wrong Number Of Columns"
-							# 	fi
-							# else 
-							# 	echo "========================================================="
-							# 	echo "First Value must be Integer...!"
-							# 	echo "========================================================="
-							# 	echo "Do U Want To Retype OR Exit?"
-							# 	select item in "Enter (Y) to Retype" "Enter (E) to Exit"
-							# 	do
-							# 		case $REPLY in
-							# 		Y|y) ./insert.sh $1 $2;;
-							# 		E|e) ./dataManipulation.sh $1 $2;;
-							# 		*) echo "Please Enter a Valid Option...!";;
-							# 		esac
-							# 	done
-							# fi
+								if [[ `awk -F: 'NR==1{print $3}' Databases/$1/.metaDataOf$2` = "Primary" ]]
+								then
+									if [[ `awk -F: -v temp=${recordValues[0]} '{if($1 == temp){print $0}}' Databases/$1/$2 | wc -l` -ge 1 ]]
+									then
+										echo "========================================"
+										echo "First Value Must be Unique...!"
+										echo "========================================"
+										echo "Do U Want To Retype OR Exit?"
+										select item in "Enter (Y) to Retype" "Enter (E) to Exit"
+										do
+											case $REPLY in
+											Y|y) ./insert.sh $1 $2;;
+											E|e) ./dataManipulation.sh $1 $2;;
+											*) echo "Please Enter a Valid Option...!";;
+											esac
+										done
+									else
+										echo $temp >> ./Databases/$1/$2
+										echo "========================================"
+										echo "Record Added Successflly."
+										echo "========================================"
+										echo "Do U Want To Add Another OR Exit?"
+										select item in "Enter (Y) to Retype" "Enter (E) to Exit"
+										do
+											case $REPLY in
+											Y|y) ./insert.sh $1 $2;;
+											E|e) ./dataManipulation.sh $1 $2;;
+											*) echo "Please Enter a Valid Option...!";;
+											esac
+										done
+									fi
+								else
+									echo $temp >> ./Databases/$1/$2
+									echo "========================================"
+									echo "Record Added Successflly."
+									echo "========================================"
+									echo "Do U Want To Add Another OR Exit?"
+									select item in "Enter (Y) to Retype" "Enter (E) to Exit"
+									do
+										case $REPLY in
+										Y|y) ./insert.sh $1 $2;;
+										E|e) ./dataManipulation.sh $1 $2;;
+										*) echo "Please Enter a Valid Option...!";;
+										esac
+									done
+								fi 
+								
+								else
+									echo "========================================"
+									echo "Wrong Number Of Columns...!"
+									echo "========================================"
+									echo "Do U Want To Retype OR Exit?"
+									select item in "Enter (Y) to Retype" "Enter (E) to Exit"
+									do
+										case $REPLY in
+										Y|y) ./insert.sh $1 $2;;
+										E|e) ./dataManipulation.sh $1 $2;;
+										*) echo "Please Enter a Valid Option...!";;
+										esac
+									done
+								fi
+							else 
+								echo "========================================================="
+								echo "First Value must be Integer...!"
+								echo "========================================================="
+								echo "Do U Want To Retype OR Exit?"
+								select item in "Enter (Y) to Retype" "Enter (E) to Exit"
+								do
+									case $REPLY in
+									Y|y) ./insert.sh $1 $2;;
+									E|e) ./dataManipulation.sh $1 $2;;
+									*) echo "Please Enter a Valid Option...!";;
+									esac
+								done
+							fi
 						else
 							echo "String Value...!"
 						fi
@@ -125,15 +190,3 @@ then
 		echo "Invalid Arguments...!"
 	fi
 fi
-
-
-
-
-
-# echo "******************** Tables Operations *********************"
-	# if [[ -f Databases/$1/$2 ]]
-	# then
-		
-	# else
-	# 	echo "NO Table With this name EXISTS"
-	# fi
