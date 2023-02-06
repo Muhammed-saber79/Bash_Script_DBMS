@@ -150,10 +150,10 @@ then
 				select choice in "Enter (R) to Retype Table Name" "Enter (E) to Exit"
 				do
 					case $REPLY in
-					E) ./connectDatabase.sh $1;;
-					e) ./connectDatabase.sh $1;;
-					R) ./dataManipulation.sh $1;;
-					r) ./dataManipulation.sh $1;;
+					E|e) ./connectDatabase.sh $1;;
+					# e) ./connectDatabase.sh $1;;
+					R|r) ./dataManipulation.sh $1;;
+					# r) ./dataManipulation.sh $1;;
 					*) echo "Please Enter a Valid Option...!";;
 					esac
 				done

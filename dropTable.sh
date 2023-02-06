@@ -23,10 +23,10 @@ then
 				select choice in "Enter (R) to Retype Table Name" "Enter (E) to Exit"
 				do
 						case $REPLY in
-						E) ./connectDatabase.sh $1;;
-						e) ./connectDatabase.sh $1;;
-						R) ./dropTable.sh $1;;
-						r) ./dropTable.sh $1;;
+						E|e) ./connectDatabase.sh $1;;
+						# e) ./connectDatabase.sh $1;;
+						R|r) ./dropTable.sh $1;;
+						# r) ./dropTable.sh $1;;
 						*) echo "Please Enter a Valid Option...!";;
 						esac
 				done
@@ -37,8 +37,8 @@ then
 				select choice in "Enter (R) To Return To Previous Menu"
 				do 
 						case $REPLY in
-						R) ./connectDatabase.sh $1;;
-						r) ./connectDatabase.sh $1;;
+						R|r) ./connectDatabase.sh $1;;
+						# r) ./connectDatabase.sh $1;;
 						*) echo "Please Enter Valid Option...!";;
 						esac
 				done
@@ -52,10 +52,10 @@ then
 			select choice in "Enter (R) to Retype Table Name" "Enter (E) to Exit"
 			do
 				case $REPLY in
-				E) ./connectDatabase.sh $1;;
-				e) ./connectDatabase.sh $1;;
-				R) ./dropTable.sh $1;;
-				r) ./dropTable.sh $1;;
+				E|e) ./connectDatabase.sh $1;;
+				# e) ./connectDatabase.sh $1;;
+				R|r) ./dropTable.sh $1;;
+				# r) ./dropTable.sh $1;;
 				*) echo "Please Enter a Valid Option...!";;
 				esac
 			done
@@ -69,10 +69,10 @@ then
 		select choice in "Enter (R) to Retype Database Name" "Enter (E) to Exit"
 		do
 			case $REPLY in
-			E) ./index.sh;;
-			e) ./index.sh;;
-			R) ./connectDatabase.sh;;
-			r) ./connectDatabase.sh;;
+			E|e) ./index.sh;;
+			# e) ./index.sh;;
+			R|r) ./connectDatabase.sh;;
+			# r) ./connectDatabase.sh;;
 			*) echo "Please Enter a Valid Option...!";;
 			esac
 		done
