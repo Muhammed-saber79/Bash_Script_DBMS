@@ -31,11 +31,10 @@ then
                         fieldNumber=$(awk -F":"  -v columnValue=$columnValue '{ for(i = 1 ; i <= NF ; i++){ if( $i == columnValue) print i} }' Databases/$1/$2)
                         if [[ $fieldNumber = $columnNumber ]]
                         then
-                            recordNumber=$(awk '{print NR,$0}' Databases/$1/$2 | grep "$columnValue" | cut -d " " -f1)
+                            recordNumber=$(awk '{print NR}' Databases/$1/$2 | grep "$columnValue" | cut -d" " -f1)
                             
                             echo "========================================"
-                            echo `awk -v num=$recordNumber '{if(NR==num){print}}' Databases/$1/$2`
-                            # sed -n "${recordNumber}p" Database/$1/$2
+							echo `awk -v num=$recordNumber '{if (NR==num) print $0}' Databases/$1/$2`
                             echo "========================================"
                             echo "Do U Want To Select Another OR Exit?"
                             select item in "Enter (Y) to Retype" "Enter (E) to Exit"

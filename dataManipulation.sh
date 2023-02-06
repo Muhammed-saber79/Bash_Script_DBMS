@@ -23,7 +23,7 @@ then
 					1) ./addingColumn.sh $1 $tableName;;
 					2) ./insert.sh $1 $tableName;;
 					3) ./selectData.sh $1 $tableName;;
-					4) ./update.sh $1 $tableName;;
+					4) ./updateRecord.sh $1 $tableName;;
 					5) ./deleteRecord.sh $1 $tableName;;
 					6) ./connectDatabase.sh $1;;
 					*) echo "Please Enter Valid Option...!";;
